@@ -1,7 +1,14 @@
 import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Discover from './Discover';
 
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Discover />,
+  },
+]);
+
 export default function Routes() {
-  // Here you'd return an array of routes
-  return <Discover />;
+  return <RouterProvider router={router} />;
 }

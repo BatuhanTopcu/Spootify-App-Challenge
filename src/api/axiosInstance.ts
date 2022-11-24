@@ -15,7 +15,7 @@ type GetAccesTokenResponse = {
   expires_in: number;
 };
 
-const getAccessToken = async () => {
+const getBearerToken = async () => {
   const { data } = await axios.post<GetAccesTokenResponse>(
     config.authUrl,
     'grant_type=client_credentials',
@@ -25,7 +25,7 @@ const getAccessToken = async () => {
       },
     }
   );
-  return data.access_token;
+  return `${data.token_type} ${data.access_token}`;
 };
 
 const axiosInstance = axios.create({
@@ -34,9 +34,9 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const token = await getAccessToken();
+    const token = await getBearerToken();
     if (token) {
-      config.headers['Authorization'] = 'Bearer ' + token;
+      config.headers['Authorization'] = token;
     }
     return config;
   },
