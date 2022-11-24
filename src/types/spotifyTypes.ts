@@ -2,18 +2,19 @@ export type ExternalUrls = {
   spotify: string;
 };
 
+export type SpotifyImage = {
+  height: number;
+  width: number;
+  url: string;
+};
+
 export type Artist = {
   id: string;
   name: string;
   uri: string;
   href: string;
+  images: SpotifyImage[];
   external_urls: ExternalUrls;
-};
-
-export type SpotifyImage = {
-  height: number;
-  width: number;
-  url: string;
 };
 
 export type HrefTotal = {
@@ -24,14 +25,12 @@ export type HrefTotal = {
 export type Album = {
   album_type: string;
   artists: Artist[];
-  available_markets: string[];
   external_urls: ExternalUrls;
   href: string;
   id: string;
   images: SpotifyImage[];
   name: string;
   release_date: string;
-  release_date_precision: string;
   total_tracks: number;
   type: string;
   uri: string;
@@ -55,7 +54,6 @@ export type Playlist = {
     uri: string;
   };
   public: boolean;
-  snapshot_id: string;
   tracks: HrefTotal;
   type: string;
   uri: string;
@@ -66,4 +64,23 @@ export type Category = {
   icons: SpotifyImage[];
   id: string;
   name: string;
+};
+
+export type Track = {
+  album: Album;
+  artists: Artist[];
+  duration_ms: number;
+  external_urls: ExternalUrls;
+  href: string;
+  id: string;
+  name: string;
+  popularity: number;
+  preview_url: string;
+  track_number: number;
+  type: string;
+  uri: string;
+};
+
+export type CustomTrack = Track & {
+  images: SpotifyImage[];
 };
