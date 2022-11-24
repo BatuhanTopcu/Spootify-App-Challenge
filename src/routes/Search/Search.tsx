@@ -10,7 +10,7 @@ export default function Search() {
   const { search, handleSearch, results, loading, clearSearch } = useSearch();
   return (
     <div className="search-page">
-      <Title>Search</Title>
+      <Title>SEARCH</Title>
       <SearchInput value={search} onChange={handleSearch} clear={clearSearch} />
       {loading && (
         <div className="search-page__loading">

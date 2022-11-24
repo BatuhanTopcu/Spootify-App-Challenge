@@ -35,10 +35,7 @@ const useSearch = () => {
       try {
         spotifyService.Search(debouncedSearch).then((res) => {
           setResults({
-            tracks: res.tracks.items,
-            artists: res.artists.items,
-            playlists: res.playlists.items,
-            albums: res.albums.items,
+            ...res,
           });
           setLoading(false);
         });

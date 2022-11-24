@@ -21,4 +21,9 @@ export type SearchResponse = {
   playlists: GenericSpotifyResponse<Playlist>;
   tracks: GenericSpotifyResponse<Track>;
 };
-export type SearchReturn = SearchResponse & { tracks: GenericSpotifyResponse<CustomTrack> };
+export type SearchReturn = {
+  albums: Album[];
+  artists: Artist[];
+  playlists: Playlist[];
+  tracks: CustomTrack[];
+};

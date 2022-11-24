@@ -32,6 +32,7 @@ export default class DiscoverBlock<
   };
   render = () => {
     const { text, id, data, imagesKey } = this.props;
+
     return (
       <div className="discover-block">
         <div className="discover-block__header">

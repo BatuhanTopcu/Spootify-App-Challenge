@@ -2,6 +2,8 @@ export type ExternalUrls = {
   spotify: string;
 };
 
+export type DataType = 'artist' | 'album' | 'track' | 'playlist';
+
 export type SpotifyImage = {
   height: number;
   width: number;
@@ -34,6 +36,7 @@ export type Album = {
   total_tracks: number;
   type: string;
   uri: string;
+  _type: 'album';
 };
 
 export type Playlist = {
@@ -57,6 +60,7 @@ export type Playlist = {
   tracks: HrefTotal;
   type: string;
   uri: string;
+  _type: 'playlist';
 };
 
 export type Category = {
@@ -64,6 +68,7 @@ export type Category = {
   icons: SpotifyImage[];
   id: string;
   name: string;
+  _type: 'category';
 };
 
 export type Track = {
@@ -79,6 +84,7 @@ export type Track = {
   track_number: number;
   type: string;
   uri: string;
+  _type: 'track';
 };
 
 export type CustomTrack = Track & {

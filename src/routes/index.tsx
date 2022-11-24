@@ -3,6 +3,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import CoreLayout from '../common/layouts/CoreLayout';
 import Discover from './Discover';
 import Search from './Search';
+import Track from './TrackPage';
+import TrackLoader from './TrackPage/TrackLoader';
 
 const router = createBrowserRouter([
   {
@@ -18,6 +20,16 @@ const router = createBrowserRouter([
     element: (
       <CoreLayout>
         <Search />
+      </CoreLayout>
+    ),
+  },
+  {
+    path: '/track/:id',
+    loader: TrackLoader,
+
+    element: (
+      <CoreLayout>
+        <Track />
       </CoreLayout>
     ),
   },

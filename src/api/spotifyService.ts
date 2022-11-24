@@ -1,3 +1,4 @@
+import { Track } from '../types/spotifyTypes';
 import {
   FeaturedPlaylistsResponse,
   CategoriesResponse,
@@ -12,19 +13,31 @@ class SpotifyService {
   async GetNewReleases() {
     const params = getRequestParams();
     const response = await axiosInstance.get<NewReleasesResponse>('/browse/new-releases', { params });
-    return response.data;
+    const albums = response.data.albums.items.map((album) => ({
+      ...album,
+      _type: 'album' as const,
+    }));
+    return albums;
   }
   async GetFeaturedPlaylists() {
     const params = getRequestParams();
     const response = await axiosInstance.get<FeaturedPlaylistsResponse>('/browse/featured-playlists', {
       params,
     });
-    return response.data;
+    const playlists = response.data.playlists.items.map((playlist) => ({
+      ...playlist,
+      _type: 'playlist' as const,
+    }));
+    return playlists;
   }
   async GetCategories() {
     const params = getRequestParams();
     const response = await axiosInstance.get<CategoriesResponse>('/browse/categories', { params });
-    return response.data;
+    const categories = response.data.categories.items.map((category) => ({
+      ...category,
+      _type: 'category' as const,
+    }));
+    return categories;
   }
   async Search(query: string): Promise<SearchReturn> {
     const params = getRequestParams();
@@ -34,14 +47,30 @@ class SpotifyService {
     const tracks = response.data.tracks.items.map((track) => ({
       ...track,
       images: track.album.images,
+      _type: 'track' as const,
+    }));
+    const albums = response.data.albums.items.map((album) => ({
+      ...album,
+      _type: 'album' as const,
+    }));
+    const artists = response.data.artists.items.map((artist) => ({
+      ...artist,
+      _type: 'artist' as const,
+    }));
+    const playlists = response.data.playlists.items.map((playlist) => ({
+      ...playlist,
+      _type: 'playlist' as const,
     }));
     return {
-      ...response.data,
-      tracks: {
-        ...response.data.tracks,
-        items: tracks,
-      },
+      albums,
+      artists,
+      playlists,
+      tracks,
     };
+  }
+  async GetTrack(id: string) {
+    const response = await axiosInstance.get<Track>(`/tracks/${id}`);
+    return response.data;
   }
 }
 

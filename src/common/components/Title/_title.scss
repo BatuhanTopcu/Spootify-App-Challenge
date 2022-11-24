@@ -5,15 +5,20 @@
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-
+  color: $primary-grey;
+  &.blue {
+    color: $primary-blue;
+  }
   > h2 {
-    color: $primary-grey;
     font-size: 15px;
     letter-spacing: 1px;
     margin: 0;
+    > span {
+      font-weight: 500;
+      color: $secondary-blue;
+    }
   }
-
-  > span {
+  > div.divider {
     background: #eee;
     flex: 1;
     height: 2px;

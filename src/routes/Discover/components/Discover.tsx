@@ -35,16 +35,15 @@ export default class Discover extends Component<IDiscoverProps, IDiscoverState> 
   async componentDidMount() {
     this.setState({ loading: true });
     try {
-      const [getCategoriesResponse, getNewReleasesResponse, getFeaturedPlaylistsResponse] =
-        await Promise.all([
-          spotifyService.GetCategories(),
-          spotifyService.GetNewReleases(),
-          spotifyService.GetFeaturedPlaylists(),
-        ]);
+      const [categories, newReleases, playlists] = await Promise.all([
+        spotifyService.GetCategories(),
+        spotifyService.GetNewReleases(),
+        spotifyService.GetFeaturedPlaylists(),
+      ]);
       this.setState({
-        categories: getCategoriesResponse.categories.items,
-        newReleases: getNewReleasesResponse.albums.items,
-        playlists: getFeaturedPlaylistsResponse.playlists.items,
+        categories,
+        newReleases,
+        playlists,
         loading: false,
       });
     } catch (_) {
