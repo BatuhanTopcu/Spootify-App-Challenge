@@ -71,7 +71,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'warn',
     'no-unused-expressions': ['off'],
     '@typescript-eslint/ban-types': ['warn'],
-    '@typescript-eslint/no-empty-interface': ['warn'],
+    '@typescript-eslint/no-empty-interface': ['off'],
     semi: [2, 'always'],
     'space-before-blocks': 2,
     'space-before-function-paren': [2, { anonymous: 'never', asyncArrow: 'always', named: 'never' }],

@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import DiscoverBlock from './DiscoverBlock/components/DiscoverBlock';
 import '../styles/_discover.scss';
+import { Album, Category, Playlist } from '../../../types/spotifyTypes';
 
 //TODO: Fix `any` types here
 
 interface IDiscoverProps {}
 
 interface IDiscoverState {
-  newReleases: Array<any>;
-  playlists: Array<any>;
-  categories: Array<any>;
+  newReleases: Array<Album>;
+  playlists: Array<Playlist>;
+  categories: Array<Category>;
 }
 
 export default class Discover extends Component<IDiscoverProps, IDiscoverState> {

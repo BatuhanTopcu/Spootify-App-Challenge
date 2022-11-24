@@ -1,10 +1,11 @@
 import React from 'react';
+import { SpotifyImage } from '../../../../../types/spotifyTypes';
 import '../styles/_discover-item.scss';
 
 //TODO: Fix types here
 interface IDiscoverItemProps {
-  images: Array<any>;
-  name: any;
+  images: Array<SpotifyImage>;
+  name: string;
 }
 
 export default class DiscoverItem extends React.Component<IDiscoverItemProps> {
