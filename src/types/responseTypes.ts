@@ -14,4 +14,4 @@ export type NewReleasesResponse = {
   albums: GenericSpotifyResponse<Album>;
 };
 export type CategoriesResponse = { categories: GenericSpotifyResponse<Category> };
-export type FeaturedPlaylistsResponse = GenericSpotifyResponse<Playlist>;
+export type FeaturedPlaylistsResponse = { playlists: GenericSpotifyResponse<Playlist> };
