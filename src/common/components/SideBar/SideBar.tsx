@@ -11,20 +11,25 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ReactComponent as Avatar } from '../../../assets/images/avatar.svg';
 import './_sidebar.scss';
+import { Link, useMatch } from 'react-router-dom';
 
 //TODO: Fix types here
 
-const renderSideBarOption = (
-  link: string,
-  icon: IconDefinition,
-  text: string,
-  { selected }: { selected?: boolean } = {}
-) => {
+type RenderSideBarOptionProps = {
+  icon: IconDefinition;
+  text: string;
+  link: string;
+};
+
+const RenderSideBarOption = ({ link, icon, text }: RenderSideBarOptionProps) => {
+  const match = useMatch(link);
   return (
-    <div className={cx('sidebar__option', { 'sidebar__option--selected': selected })}>
-      <FontAwesomeIcon icon={icon} />
-      <p>{text}</p>
-    </div>
+    <Link to={link}>
+      <div className={cx('sidebar__option', { 'sidebar__option--selected': !!match })}>
+        <FontAwesomeIcon icon={icon} />
+        <p>{text}</p>
+      </div>
+    </Link>
   );
 };
 
@@ -36,11 +41,11 @@ export default class SideBar extends React.Component {
         <p>Bob Smith</p>
       </div>
       <div className="sidebar__options">
-        {renderSideBarOption('/', faHeadphonesAlt, 'Discover', { selected: true })}
-        {renderSideBarOption('/search', faSearch, 'Search')}
-        {renderSideBarOption('/favourites', faHeart, 'Favourites')}
-        {renderSideBarOption('/playlists', faPlayCircle, 'Playlists')}
-        {renderSideBarOption('/charts', faStream, 'Charts')}
+        <RenderSideBarOption link="/" icon={faHeadphonesAlt} text="Discover" />
+        <RenderSideBarOption link="/search" icon={faSearch} text="Search" />
+        <RenderSideBarOption link="/favourites" icon={faHeart} text="Favourites" />
+        <RenderSideBarOption link="/playlists" icon={faPlayCircle} text="Playlists" />
+        <RenderSideBarOption link="/charts" icon={faStream} text="Charts" />
       </div>
     </div>
   );
