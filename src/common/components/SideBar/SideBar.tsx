@@ -18,13 +18,16 @@ import { Link, useMatch } from 'react-router-dom';
 type RenderSideBarOptionProps = {
   icon: IconDefinition;
   text: string;
-  link: string;
+  link?: string;
 };
 
 const RenderSideBarOption = ({ link, icon, text }: RenderSideBarOptionProps) => {
-  const match = useMatch(link);
+  const match = link ? useMatch(link) : false;
   return (
-    <Link to={link}>
+    <Link
+      to={link ? link : '#'}
+      onClick={(e) => !link && e.preventDefault()}
+      className={!link ? 'disabled' : ''}>
       <div className={cx('sidebar__option', { 'sidebar__option--selected': !!match })}>
         <FontAwesomeIcon icon={icon} />
         <p>{text}</p>
@@ -43,9 +46,9 @@ export default class SideBar extends React.Component {
       <div className="sidebar__options">
         <RenderSideBarOption link="/" icon={faHeadphonesAlt} text="Discover" />
         <RenderSideBarOption link="/search" icon={faSearch} text="Search" />
-        <RenderSideBarOption link="/favourites" icon={faHeart} text="Favourites" />
-        <RenderSideBarOption link="/playlists" icon={faPlayCircle} text="Playlists" />
-        <RenderSideBarOption link="/charts" icon={faStream} text="Charts" />
+        <RenderSideBarOption icon={faHeart} text="Favourites" />
+        <RenderSideBarOption icon={faPlayCircle} text="Playlists" />
+        <RenderSideBarOption icon={faStream} text="Charts" />
       </div>
     </div>
   );

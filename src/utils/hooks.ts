@@ -21,7 +21,6 @@ export function useDebouncedParams(value: string, queryKey: string, delay: numbe
       if (searchParams.get(queryKey) === value) return;
       const query = new URLSearchParams(searchParams);
       query.set(queryKey, value);
-      console.log('set');
       setSearchParams(query);
     }, delay);
     return () => {
