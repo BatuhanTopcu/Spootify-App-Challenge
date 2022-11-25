@@ -4,7 +4,6 @@ import ContentTitleValue from '../../common/components/ContentTitleValue';
 import Title from '../../common/components/Title';
 import { Track } from '../../types/spotifyTypes';
 import { convertDateString, msToMinutesAndSeconds } from '../../utils/helpers';
-import './_track-page.scss';
 
 export default function TrackPage() {
   const track = useLoaderData() as Track;
@@ -21,7 +20,7 @@ export default function TrackPage() {
           <ContentTitleValue title="Duration" value={msToMinutesAndSeconds(track.duration_ms)} />
           <div>
             <div className="content__info__title">Artists</div>
-            <div className="content__info__chips">
+            <div className="content__info__value">
               {track.artists.map((artist) => (
                 <div className="chip" key={artist.id}>
                   {artist.name}
@@ -35,6 +34,9 @@ export default function TrackPage() {
               Your browser does not support the audio element.
             </audio>
           </div>
+          <a href={track.external_urls.spotify} target="_blank" rel="noreferrer">
+            <button className="spotify-button">Open on Spotify</button>
+          </a>
         </div>
       </div>
     </div>
