@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import DiscoverItem from './DiscoverItem';
 import '../styles/_discover-block.scss';
-import { SpotifyImage } from '../../../../../types/spotifyTypes';
+import { CommonSpotifyData, SpotifyDataType, SpotifyImage } from '../../../../../types/spotifyTypes';
+import { urlGenerator } from '../../../../../utils/helpers';
 
 //TODO: Fix types here
 
@@ -19,8 +20,10 @@ const scrollContainer = (id: string, { isNegative }: { isNegative?: boolean } = 
 interface IDiscoverBlockProps<T extends Record<string, unknown>, K extends keyof T> {
   text: string;
   id: string;
-  imagesKey: T[K] extends SpotifyImage[] ? K : never;
-  data: T extends Record<'name', string> & Record<K, SpotifyImage[]> ? T[] : never;
+  data: T extends CommonSpotifyData & Record<K, SpotifyImage[]> & Record<'_type', SpotifyDataType>
+    ? T[]
+    : never;
+  imagesKey: K extends keyof T ? (T[K] extends SpotifyImage[] ? K : never) : never;
 }
 
 export default class DiscoverBlock<
@@ -49,9 +52,17 @@ export default class DiscoverBlock<
           ) : null}
         </div>
         <div className="discover-block__row" id={id}>
-          {data.map((singleData) => (
-            <DiscoverItem key={singleData.name} images={singleData[imagesKey]} name={singleData.name} />
-          ))}
+          {data.map((singleData) => {
+            const url = urlGenerator(singleData._type, singleData.id);
+            return (
+              <DiscoverItem
+                key={singleData.name}
+                images={singleData[imagesKey]}
+                name={singleData.name}
+                url={url}
+              />
+            );
+          })}
         </div>
       </div>
     );

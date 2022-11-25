@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import spotifyService from '../../api/spotifyService';
 import { Artist, Playlist, Album, CustomTrack } from '../../types/spotifyTypes';
-import { useDebounce } from '../../utils/hooks';
+import { useDebouncedParams } from '../../utils/hooks';
 
 type ResultState = {
   tracks: CustomTrack[];
@@ -11,8 +12,9 @@ type ResultState = {
 } | null;
 
 const useSearch = () => {
-  const [search, setSearch] = useState('');
-  const debouncedSearch = useDebounce(search, 500);
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get('q') ?? '');
+  useDebouncedParams(search, 'q', 750);
   const [results, setResults] = useState<ResultState>(null);
   const [loading, setLoading] = useState(false);
 
@@ -31,9 +33,10 @@ const useSearch = () => {
 
   useEffect(() => {
     setLoading(true);
-    if (debouncedSearch.length > 0) {
+    const q = searchParams.get('q') ?? '';
+    if (q.length > 0) {
       try {
-        spotifyService.Search(debouncedSearch).then((res) => {
+        spotifyService.Search(searchParams.get('q') ?? '').then((res) => {
           setResults({
             ...res,
           });
@@ -46,7 +49,7 @@ const useSearch = () => {
     } else {
       resetState();
     }
-  }, [debouncedSearch]);
+  }, [searchParams]);
 
   return { search, handleSearch, results, loading, clearSearch };
 };

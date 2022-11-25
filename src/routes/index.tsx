@@ -26,7 +26,6 @@ const router = createBrowserRouter([
   {
     path: '/track/:id',
     loader: TrackLoader,
-
     element: (
       <CoreLayout>
         <Track />
