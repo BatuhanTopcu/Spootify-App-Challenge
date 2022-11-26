@@ -1,6 +1,7 @@
 import React from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import ContentTitleValue from '../../common/components/Content';
+import ContentArtists from '../../common/components/Content/ContentArtists';
 import Title from '../../common/components/Title';
 import { Track } from '../../types/spotifyTypes';
 import { convertDateString, msToMinutesAndSeconds, urlGenerator } from '../../utils/helpers';
@@ -22,16 +23,7 @@ export default function TrackPage() {
           />
           <ContentTitleValue title="Release Date" value={convertDateString(track.album.release_date)} />
           <ContentTitleValue title="Duration" value={msToMinutesAndSeconds(track.duration_ms)} />
-          <div>
-            <div className="content__info__title">Artists</div>
-            <div className="content__info__value">
-              {track.artists.map((artist) => (
-                <Link to={urlGenerator('artist', artist.id) ?? ''} key={artist.id}>
-                  <div className="chip">{artist.name}</div>
-                </Link>
-              ))}
-            </div>
-          </div>
+          <ContentArtists artists={track.artists} />
           {track.preview_url && (
             <ContentTitleValue title="Duration" value={<audio controls src={track.preview_url} />} />
           )}
