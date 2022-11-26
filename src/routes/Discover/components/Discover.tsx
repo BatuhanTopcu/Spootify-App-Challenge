@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DiscoverBlock from './DiscoverBlock/components/DiscoverBlock';
 import '../styles/_discover.scss';
-import { Album, Category, Playlist } from '../../../types/spotifyTypes';
+import { Album, CustomCategory, Playlist } from '../../../types/spotifyTypes';
 import spotifyService from '../../../api/spotifyService';
 import LoadingBar from '../../../common/components/LoadingBar/LoadingBar';
 
@@ -12,7 +12,7 @@ interface IDiscoverProps {}
 interface IDiscoverState {
   newReleases: Array<Album>;
   playlists: Array<Playlist>;
-  categories: Array<Category>;
+  categories: Array<CustomCategory>;
   loading: boolean;
   error: boolean;
 }

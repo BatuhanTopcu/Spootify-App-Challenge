@@ -2,9 +2,12 @@ import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import CoreLayout from '../common/layouts/CoreLayout';
 import Discover from './Discover';
+import GenericLoader from './GenericLoader';
 import Search from './Search';
-import Track from './TrackPage';
-import TrackLoader from './TrackPage/TrackLoader';
+import TrackPage from './TrackPage';
+import ArtistPage from './ArtistPage';
+import AlbumPage from './AlbumPage';
+import PlaylistPage from './PlaylistPage';
 
 const router = createBrowserRouter([
   {
@@ -25,10 +28,37 @@ const router = createBrowserRouter([
   },
   {
     path: '/track/:id',
-    loader: TrackLoader,
+    loader: GenericLoader('track'),
     element: (
       <CoreLayout>
-        <Track />
+        <TrackPage />
+      </CoreLayout>
+    ),
+  },
+  {
+    path: '/artist/:id',
+    loader: GenericLoader('artist'),
+    element: (
+      <CoreLayout>
+        <ArtistPage />
+      </CoreLayout>
+    ),
+  },
+  {
+    path: '/playlist/:id',
+    loader: GenericLoader('playlist'),
+    element: (
+      <CoreLayout>
+        <PlaylistPage />
+      </CoreLayout>
+    ),
+  },
+  {
+    path: '/album/:id',
+    loader: GenericLoader('album'),
+    element: (
+      <CoreLayout>
+        <AlbumPage />
       </CoreLayout>
     ),
   },

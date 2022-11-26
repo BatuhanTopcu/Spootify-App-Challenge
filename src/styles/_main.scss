@@ -48,8 +48,7 @@ body,
       padding: 50px;
       padding-top: 0;
       padding-bottom: 100px;
-      overflow-y: scroll;
-
+      overflow-y: auto;
       @media only screen and (max-width: 750px) {
         padding: 20px;
       }
@@ -64,21 +63,21 @@ body,
 
 .content {
   display: flex;
-  height: 100%;
+  min-height: 100%;
+  padding-bottom: 120px;
   gap: 20px;
   font-family: 'Rubik', sans-serif;
   @media screen and (max-width: 950px) {
     flex-direction: column;
-    &__cover-image {
+    padding-bottom: 100px;
+    .content__cover-image {
       width: 100%;
       height: auto;
     }
-    &__info {
-      padding-bottom: 100px;
-    }
   }
   &__cover-image {
-    height: 100%;
+    height: 379px;
+    width: 379px;
     object-fit: cover;
     object-position: center;
     border-radius: 15px;
@@ -96,7 +95,7 @@ body,
       &:hover {
         color: $primary-blue;
       }
-      &:has(> button) {
+      &:has(> button, > .chip) {
         text-decoration: none;
       }
     }
@@ -114,23 +113,47 @@ body,
       flex-wrap: wrap;
       gap: 10px;
     }
+    &__tracks {
+      max-height: 250px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+      a > .chip {
+        color: white;
+        &:hover {
+          background: $secondary-blue !important;
+        }
+      }
+      a:nth-child(odd) > .chip {
+        background: #393e46;
+      }
+      a:nth-child(even) > .chip {
+        background: #282a3a;
+      }
+    }
+    a > .chip {
+      cursor: pointer;
+      &:hover {
+        background: $secondary-blue;
+        color: white;
+      }
+    }
     .chip {
-      width: max-content;
+      max-width: 100%;
       padding: 3px 8px;
       border-radius: 15px;
       background: $primary-grey;
       color: $deep-grey;
       font-size: 1rem;
       font-weight: 500;
-      cursor: pointer;
       transition: all 0.15s ease-in-out;
-      &:first-child {
-        background: $primary-blue;
-        color: white;
-      }
-      &:hover {
-        background: $secondary-blue;
-        color: white;
+      filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.2));
+      span {
+        margin-right: 5px;
+        color: #8d9eff;
+        border-radius: 50%;
       }
     }
     .spotify-button {
@@ -152,5 +175,25 @@ body,
         background: #1edd72;
       }
     }
+  }
+}
+
+.custom-scrollbar {
+  scrollbar-color: $primary-blue $secondary-blue;
+  scrollbar-width: thin;
+  padding: 5px;
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgb(236, 236, 236);
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border: 4px solid transparent;
+    border-radius: 5px;
+    background-clip: padding-box;
+    background: $primary-blue;
   }
 }

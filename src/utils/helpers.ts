@@ -1,10 +1,10 @@
 import { SpotifyDataType } from '../types/spotifyTypes';
 
-const baseUrls: Record<SpotifyDataType, string | null> = {
+const baseUrls = {
   track: '/track',
-  album: null,
-  artist: null,
-  playlist: null,
+  album: '/album',
+  artist: '/artist',
+  playlist: '/playlist',
   category: null,
 };
 
@@ -25,4 +25,9 @@ export const convertDateString = (dateString: string) => {
   return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1)
     .toString()
     .padStart(2, '0')}/${date.getFullYear()}`;
+};
+
+export const formatNumberString = (number: number): string => {
+  const nf = Intl.NumberFormat();
+  return nf.format(number);
 };

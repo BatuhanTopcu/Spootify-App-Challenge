@@ -20,7 +20,7 @@ const scrollContainer = (id: string, { isNegative }: { isNegative?: boolean } = 
 interface IDiscoverBlockProps<T extends Record<string, unknown>, K extends keyof T> {
   text: string;
   id: string;
-  data: T extends CommonSpotifyData & Record<K, SpotifyImage[]> & Record<'_type', SpotifyDataType>
+  data: T extends CommonSpotifyData & Record<K, SpotifyImage[]> & Record<'type', SpotifyDataType>
     ? T[]
     : never;
   imagesKey: K extends keyof T ? (T[K] extends SpotifyImage[] ? K : never) : never;
@@ -53,7 +53,7 @@ export default class DiscoverBlock<
         </div>
         <div className="discover-block__row" id={id}>
           {data.map((singleData) => {
-            const url = urlGenerator(singleData._type, singleData.id);
+            const url = urlGenerator(singleData.type, singleData.id);
             return (
               <DiscoverItem
                 key={singleData.name}

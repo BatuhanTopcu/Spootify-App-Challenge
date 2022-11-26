@@ -1,6 +1,6 @@
 import { Album, Artist, Category, CustomTrack, Playlist, Track } from './spotifyTypes';
 
-type GenericSpotifyResponse<T> = {
+export type GenericSpotifyResponse<T> = {
   href: string;
   items: T[];
   limit: number;

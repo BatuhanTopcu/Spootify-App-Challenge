@@ -1,3 +1,5 @@
+import { GenericSpotifyResponse } from './responseTypes';
+
 export type ExternalUrls = {
   spotify: string;
 };
@@ -16,14 +18,20 @@ export type CommonSpotifyData = {
   external_urls: ExternalUrls;
 };
 
-export type Artist = CommonSpotifyData & {
-  images: SpotifyImage[];
-  _type: 'artist';
-};
-
 export type HrefTotal = {
   href: string;
   total: number;
+};
+
+export type Artist = CommonSpotifyData & {
+  images: SpotifyImage[];
+  genres: string[];
+  followers: HrefTotal;
+  type: 'artist';
+};
+
+export type CustomArtist = Artist & {
+  top_tracks: Track[];
 };
 
 export type Album = CommonSpotifyData & {
@@ -31,9 +39,8 @@ export type Album = CommonSpotifyData & {
   artists: Artist[];
   release_date: string;
   total_tracks: number;
-  type: string;
+  type: 'album';
   images: SpotifyImage[];
-  _type: 'album';
 };
 
 export type Playlist = CommonSpotifyData & {
@@ -46,14 +53,18 @@ export type Playlist = CommonSpotifyData & {
     type: string;
   };
   public: boolean;
-  tracks: HrefTotal;
-  type: string;
-  _type: 'playlist';
+  tracks: {
+    total: number;
+  };
+  type: 'playlist';
 };
 
 export type Category = CommonSpotifyData & {
   icons: SpotifyImage[];
-  _type: 'category';
+};
+
+export type CustomCategory = Category & {
+  type: 'category';
 };
 
 export type Track = CommonSpotifyData & {
@@ -61,15 +72,22 @@ export type Track = CommonSpotifyData & {
   artists: Artist[];
   duration_ms: number;
   popularity: number;
-  preview_url: string;
+  preview_url: string | null;
   track_number: number;
-  type: string;
+  type: 'track';
   uri: string;
 };
 
 export type CustomTrack = Track & {
   images: SpotifyImage[];
-  _type: 'track';
+};
+
+export type SinglePlaylist = Playlist & {
+  tracks: GenericSpotifyResponse<{ track: Track }>;
+};
+
+export type SingleAlbum = Album & {
+  tracks: GenericSpotifyResponse<Omit<Track, 'album'>>;
 };
 
 export type SpotifyDataType = 'artist' | 'album' | 'track' | 'playlist' | 'category';

@@ -1,4 +1,13 @@
-import { Track } from '../types/spotifyTypes';
+import {
+  Album,
+  Artist,
+  CustomArtist,
+  CustomCategory,
+  Playlist,
+  SingleAlbum,
+  SinglePlaylist,
+  Track,
+} from '../types/spotifyTypes';
 import {
   FeaturedPlaylistsResponse,
   CategoriesResponse,
@@ -10,32 +19,24 @@ import axiosInstance from './axiosInstance';
 import { getRequestParams } from './utils';
 
 class SpotifyService {
-  async GetNewReleases() {
+  async GetNewReleases(): Promise<Album[]> {
     const params = getRequestParams();
     const response = await axiosInstance.get<NewReleasesResponse>('/browse/new-releases', { params });
-    const albums = response.data.albums.items.map((album) => ({
-      ...album,
-      _type: 'album' as const,
-    }));
-    return albums;
+    return response.data.albums.items;
   }
-  async GetFeaturedPlaylists() {
+  async GetFeaturedPlaylists(): Promise<Playlist[]> {
     const params = getRequestParams();
     const response = await axiosInstance.get<FeaturedPlaylistsResponse>('/browse/featured-playlists', {
       params,
     });
-    const playlists = response.data.playlists.items.map((playlist) => ({
-      ...playlist,
-      _type: 'playlist' as const,
-    }));
-    return playlists;
+    return response.data.playlists.items;
   }
-  async GetCategories() {
+  async GetCategories(): Promise<CustomCategory[]> {
     const params = getRequestParams();
     const response = await axiosInstance.get<CategoriesResponse>('/browse/categories', { params });
     const categories = response.data.categories.items.map((category) => ({
       ...category,
-      _type: 'category' as const,
+      type: 'category' as const,
     }));
     return categories;
   }
@@ -47,20 +48,10 @@ class SpotifyService {
     const tracks = response.data.tracks.items.map((track) => ({
       ...track,
       images: track.album.images,
-      _type: 'track' as const,
     }));
-    const albums = response.data.albums.items.map((album) => ({
-      ...album,
-      _type: 'album' as const,
-    }));
-    const artists = response.data.artists.items.map((artist) => ({
-      ...artist,
-      _type: 'artist' as const,
-    }));
-    const playlists = response.data.playlists.items.map((playlist) => ({
-      ...playlist,
-      _type: 'playlist' as const,
-    }));
+    const albums = response.data.albums.items;
+    const artists = response.data.artists.items;
+    const playlists = response.data.playlists.items;
     return {
       albums,
       artists,
@@ -68,8 +59,25 @@ class SpotifyService {
       tracks,
     };
   }
-  async GetTrack(id: string) {
+  async GetTrack(id: string): Promise<Track> {
     const response = await axiosInstance.get<Track>(`/tracks/${id}`);
+    return response.data;
+  }
+  async GetArtist(id: string): Promise<CustomArtist> {
+    const artist = (await axiosInstance.get<Artist>(`/artists/${id}`)).data;
+    const params = new URLSearchParams();
+    params.append('market', 'TR');
+    const topTracks = (
+      await axiosInstance.get<{ tracks: Track[] }>(`/artists/${id}/top-tracks`, { params })
+    ).data.tracks;
+    return { ...artist, top_tracks: topTracks };
+  }
+  async GetPlaylist(id: string): Promise<SinglePlaylist> {
+    const response = await axiosInstance.get<SinglePlaylist>(`/playlists/${id}`);
+    return response.data;
+  }
+  async GetAlbum(id: string): Promise<SingleAlbum> {
+    const response = await axiosInstance.get<SingleAlbum>(`/albums/${id}`);
     return response.data;
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
-import ContentTitleValue from '../../common/components/ContentTitleValue';
+import { Link, useLoaderData } from 'react-router-dom';
+import ContentTitleValue from '../../common/components/Content';
 import Title from '../../common/components/Title';
 import { Track } from '../../types/spotifyTypes';
-import { convertDateString, msToMinutesAndSeconds } from '../../utils/helpers';
+import { convertDateString, msToMinutesAndSeconds, urlGenerator } from '../../utils/helpers';
 
 export default function TrackPage() {
   const track = useLoaderData() as Track;
@@ -15,25 +15,26 @@ export default function TrackPage() {
       <div className="content">
         <img className="content__cover-image" src={track.album.images[0].url} alt={track.name} />
         <div className="content__info">
-          <ContentTitleValue title="Album" value={track.album.name} />
+          <ContentTitleValue
+            title="Album"
+            value={track.album.name}
+            link={urlGenerator('album', track.album.id) ?? ''}
+          />
           <ContentTitleValue title="Release Date" value={convertDateString(track.album.release_date)} />
           <ContentTitleValue title="Duration" value={msToMinutesAndSeconds(track.duration_ms)} />
           <div>
             <div className="content__info__title">Artists</div>
             <div className="content__info__value">
               {track.artists.map((artist) => (
-                <div className="chip" key={artist.id}>
-                  {artist.name}
-                </div>
+                <Link to={urlGenerator('artist', artist.id) ?? ''} key={artist.id}>
+                  <div className="chip">{artist.name}</div>
+                </Link>
               ))}
             </div>
           </div>
-          <div>
-            <div className="content__info__title">Preview</div>
-            <audio controls src={track.preview_url}>
-              Your browser does not support the audio element.
-            </audio>
-          </div>
+          {track.preview_url && (
+            <ContentTitleValue title="Duration" value={<audio controls src={track.preview_url} />} />
+          )}
           <a href={track.external_urls.spotify} target="_blank" rel="noreferrer">
             <button className="spotify-button">Open on Spotify</button>
           </a>
