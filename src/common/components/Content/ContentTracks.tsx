@@ -5,10 +5,11 @@ import { urlGenerator } from '../../../utils/helpers';
 
 type Props = {
   title: string;
-  tracks: Track[];
+  tracks: (Track | Omit<Track, 'album'>)[];
+  hideArtist?: boolean;
 };
 
-export default function ContentTracks({ title, tracks }: Props) {
+export default function ContentTracks({ title, tracks, hideArtist }: Props) {
   return (
     <div>
       <div className="content__info__title">{title}</div>
@@ -16,7 +17,7 @@ export default function ContentTracks({ title, tracks }: Props) {
         {tracks.map((track, index) => (
           <Link to={urlGenerator('track', track.id) ?? ''} key={track.id}>
             <div className="chip">
-              <span>{index + 1}</span> {track.name} - {track.artists[0].name}
+              <span>{index + 1}</span> {track.name} {hideArtist ? '' : `- ${track.artists[0].name}`}
             </div>
           </Link>
         ))}
